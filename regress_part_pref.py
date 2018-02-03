@@ -2,7 +2,7 @@
 """
 Created on Fri Feb  2 10:06:40 2018
 
-@author: geoderek
+@author: geoderek, w/ help from colleagues at austin hackathon
 Following the guide to the Austin Hackathon, this script is meant to the focus on 
 analyzing election data. Specifically, it starts with looking at linear and other 
 regression models to score precincts for partisan preference.  
