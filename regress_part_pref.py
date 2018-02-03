@@ -19,16 +19,16 @@ import numpy as np
 #c = fiona.open(r"../Data/Wards2017_ED12toED16/Wards2017_ED12toED16.shp")
 #pprint.pprint(c.schema)
 
-wards_df = gpd.read_file(r"../Data/Wards2017_ED12toED16/Wards2017_ED12toED16.shp")
+wards_df = gpd.read_file(r"../../Data/Wards2017_ED12toED16/Wards2017_ED12toED16.shp")
 print(len(list(wards_df)))
 
-#ward_df_for_model = wards_df[['BLACK18', 'USSREP14']]  #WHITE18
-#x_values = ward_df_for_model[['BLACK18']].values
-#y_values = ward_df_for_model[['USSREP14']].values 
-
-ward_df_for_model = wards_df[['WHITE18', 'USSREP14']]  
-x_values = ward_df_for_model[['WHITE18']].values
+ward_df_for_model = wards_df[['BLACK18', 'USSREP14']]  #WHITE18
+x_values = ward_df_for_model[['BLACK18']].values
 y_values = ward_df_for_model[['USSREP14']].values 
+
+#ward_df_for_model = wards_df[['WHITE18', 'USSREP14']]  
+#x_values = ward_df_for_model[['WHITE18']].values
+#y_values = ward_df_for_model[['USSREP14']].values 
 
 
 #train model on data
