@@ -9,7 +9,6 @@ regression models to score precincts for partisan preference.
 """
 
 # https://gis.stackexchange.com/questions/120571/iterate-through-a-shapefile
-#import fiona
 import geopandas as gpd
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
@@ -36,6 +35,5 @@ intercept = regression_model.intercept_[0]
 print("The intercept for our model is {}".format(intercept))
 
 wards.plot(column='USSREP12', cmap='OrRd', scheme='quantiles')
-
 plt.xlim([-89.4, -89.4])
 plt.ylim([43.05, 43.05]);
