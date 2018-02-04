@@ -13,53 +13,29 @@ regression models to score precincts for partisan preference.
 import geopandas as gpd
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
-import numpy as np
+import matplotlib.pylab as pylab
+pylab.rcParams['figure.figsize'] = 18, 16
 
-#import pprint
-#c = fiona.open(r"../Data/Wards2017_ED12toED16/Wards2017_ED12toED16.shp")
-#pprint.pprint(c.schema)
+wards = gpd.read_file(r"../../Data/Wards2017_ED12toED16/Wards2017_ED12toED16.shp")
+#print(list(wards_df))
 
-wards_df = gpd.read_file(r"../../Data/Wards2017_ED12toED16/Wards2017_ED12toED16.shp")
-print(len(list(wards_df)))
+ward_attribs = wards[['USSREP14','WHITE18', 'BLACK18', 'HISPANIC18', 'ASIAN18', 'AMINDIAN18', 'PISLAND18', 'OTHER18', 'OTHERMLT18']]  
+y = ward_attribs[['USSREP14']]
+X = ward_attribs.drop('USSREP14', axis=1)
 
-#ward_df_for_model = wards_df[['BLACK18', 'USSREP14']]  #WHITE18
-#x_values = ward_df_for_model[['BLACK18']].values
-#y_values = ward_df_for_model[['USSREP14']].values 
-
-ward_df_for_model = wards_df[['WHITE18', 'USSREP14']]  
-x_values = ward_df_for_model[['WHITE18']].values
-y_values = ward_df_for_model[['USSREP14']].values 
-
-
-#train model on data
 lm = LinearRegression()
-lm.fit(x_values, y_values)
+lm.fit(X, y)
 
-#https://tutorials.technology/tutorials/19-how-to-do-a-regression-with-sklearn.html
-m = lm.coef_[0]
-b = lm.intercept_
-print(' y = {0} * x + {1}'.format(m, b))
-# The mean squared error
-print("Mean squared error: %.2f" % np.mean((lm.predict(x_values) - y_values) ** 2))
-# Explained variance score: 1 is perfect prediction
-print('Variance score: %.2f' % lm.score(x_values, y_values))
+regression_model = LinearRegression()
+regression_model.fit(X, y)
+print(regression_model)
+for idx, col_name in enumerate(X.columns):
+    print("The coefficient for {} is {}".format(col_name, regression_model.coef_[0][idx]))
 
-#
-#visualise results
-#plt.scatter(x_values, y_values)
-plt.ylabel('reps')
-plt.xlabel('pop')
-plt.yscale('linear')
-plt.xscale('linear')
-#plt.scatter(x_values,y_values, c="pop")
-#plt.scatter(x_values,lm.predict(x_values), c="pop")
-plt.plot(x_values, lm.predict(x_values))
-plt.show()
+intercept = regression_model.intercept_[0]
+print("The intercept for our model is {}".format(intercept))
 
+wards.plot(column='USSREP12', cmap='OrRd', scheme='quantiles')
 
-#=============================================================================
-#This works for looping over features w/ fiona
-#names = {}
-#for feat in fiona.open(r"../Data/Wards2017_ED12toED16/Wards2017_ED12toED16.shp"):
-#    print(feat['properties']['NAME'])
-    
+plt.xlim([-89.4, -89.4])
+plt.ylim([43.05, 43.05]);
